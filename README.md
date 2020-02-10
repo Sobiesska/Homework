@@ -1,4 +1,5 @@
-[Lilia Podolska](https://www.facebook.com/Sobieska) — Have started new course JavaScript basic online
+[Lilia Podolska](https://www.facebook.com/Sobieska) 
+(Have started new course JavaScript basic online)
 ================================================================================================================================================================================================================================================================================
 
 
