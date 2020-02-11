@@ -4,11 +4,8 @@ let second = 204;
 let third = 192;
 let random = Math.random();
 
-console.log ('background-color: rgba('
-    + String(first) + ', '
-    + String(second) + ', '
-    + String(third) + ', '
-    + String(random) + ')');
+console.log ('background-color: rgba(' + first + ', ' + second + ', ' + third + ', ' + random + ')');
+
 
 /* First issue */
 const MIN_AGE = 18;
@@ -26,10 +23,12 @@ if (typeof age === 'undefined' || Number.isNaN(age) || !Number.isFinite(age)) {
         }
     }
 
+
 /* Second issue */
 let firstNumber = 10;
 let secondNumber = 15;
 let max = secondNumber > firstNumber ? secondNumber : firstNumber;
+
 console.log(max);
 
 
@@ -41,35 +40,42 @@ switch (TIME) {
     case 1:
         alert('Сутки только начались');
         break;
+
     case 2:
     case 3:
     case 4:
         alert('Еще рано, можно спать');
         break;
+
     case 5:
     case 6:
         alert('Мам, можно еще чуть-чуть поспать');
         break;
+
     case 7:
     case 8:
     case 9:
         alert('Собираемся в школу');
         break;
+
     case 10:
     case 11:
     case 12:
     case 13:
         alert('Уроки в школе');
         break;
+
     case 14:
     case 15:
     case 16:
         alert('Продленка');
         break;
+
     case 17:
     case 18:
         alert('Дорога домой');
         break;
+
     case 19:
     case 20:
     case 21:
@@ -77,9 +83,11 @@ switch (TIME) {
     case 23:
         alert('Урррааа :)');
         break;
+
     default:
         alert( 'Вы ввели число не из диапазона' );
 }
+
 
 /* Third issue (additional) */
 const TIME2 = +prompt('Введите число от 0 до 23', '');
