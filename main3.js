@@ -1,47 +1,21 @@
-/*
-let user = {
-    name: 'Dima',
-    age: 35,
-    eyeColor: 'green',
-    weight: 90,
-    canRun: true,
-/*
-    run: function () {
-console.log('RUN');
-    },
-    back: function () {
-        console.log('BACK');
-    },
-    /*
-
-};
-/*
-user.back();
-user.height = '180';
-user.eyeColor = 'black';
-
-for (let prop in user) {
-    console.log(user[prop]);
-}
-*/
-
 // First issue
-let user = {
+let user1 = {
     name: 'Dima',
     age: 35,
     eyeColor: 'green',
     weight: 90,
     canRun: true,
 };
-function copy(object) {
-    let copy = {};
-    for (let prop in object) {
-        copy[prop] = user[prop];
+function copy(oldObj) {
+    let newObj = {};
+    for (let prop in oldObj) {
+        newObj[prop] = oldObj[prop];
     }
-    return copy;
+    return newObj;
 };
-let newUser = copy(user);
-console.log(newUser);
+let newUser1 = copy(user1);
+console.log(newUser1);
+
 
 // Second issue
 let article1 = {
@@ -50,7 +24,7 @@ let article1 = {
     size: 'M',
     height: 70,
     width: 80,
-    material: 'coton',
+    material: 'cotton',
     availability: true,
 };
 let article2 = {
@@ -62,12 +36,12 @@ let article2 = {
     material: 'coton',
     availability: true,
 };
-function isEquil(firstObject, secondObject) {
-    if (Object.values(firstObject).length !== Object.values(secondObject).length) {
+function isEquil(firstObj, secondObj) {
+    if (Object.values(firstObj).length !== Object.values(secondObj).length) {
         return false;
     }
-    for (let key in firstObject) {
-        if (firstObject[key] !== secondObject[key]) {
+    for (let key in firstObj) {
+        if (firstObj[key] !== secondObj[key]) {
             return false;
         }
     }
@@ -77,24 +51,20 @@ let result = isEquil(article1, article2);
 console.log(result);
 
 
-
-
-
-/*
-
-ДЗ:
-    1. Создать функцию copy, которая принимает на вход один объект и возвращает точную копию (новый объект) с
-теми же свойствами.
-2. Создать функцию isEquil, которая принимает на вход 2 объекта, сравнивает их свойства, возвращает true - если объекты
-одинаковы по значениям или false, если чем-то отличаются
-
-
-3. первая задачка но с измением name, age color -> перезаписать любыми значениями
-
-
-function copyWithModify(origin, name, age, color) {
-
-}
-
-copyWithModify(user, 'Max', 20, 'red');
- */
+// Third issue
+let user2 = {
+    name: 'Anna',
+    age: 23,
+    eyeColor: 'brown',
+    weight: 56,
+    canRun: false,
+};
+function copyWithModify(origin, newName, newAge, newEyeColor) {
+    const newObj = copy(origin);
+    newObj.name = newName;
+    newObj.age = newAge;
+    newObj.eyeColor = newEyeColor;
+    return newObj;
+};
+let user3 = copyWithModify(user2, 'Max', 20, 'red');
+console.log(user3);
