@@ -107,21 +107,22 @@ isShortName(allNames);
 console.log(fewNames);
 
 
-/*
 //* Fifth issue (for)
 let allNames = ['fasf', 'cer', 'fdsfkjdh', 'kot'];
-function isNewArray(item, index, array) {
-    for (let i = 0; i < allNames.length; i++) {
-        if (item < 4) {
-            console.log(item);
+let fewNames = [];
+function isShortName(item, index, array) {
+    for (let key of allNames) {
+        if (key.length < 4) {
+            fewNames.push(key);
         }
     }
 }
-isNewArray(allNames)
+isShortName(allNames);
+console.log(fewNames);
 
 
-/*
 
+/* Задание:
 1. Есть массив чисел, посчитать сумму всех элементов используя
 for обычный и forEach. Реализовать через функцию, которая на вход принимает
 массив.
@@ -144,5 +145,3 @@ var result = [5, 5];
 5. Есть массив имен ['fasf', 'cvser', 'fdsf']. На вход функции
 Создать новый массив на выходе, который вернет имена, которые меньше 4 букв
 Цикл for метод filter
-
- */
