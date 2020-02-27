@@ -14,7 +14,7 @@ if (typeof age === 'underfined' || Number.isNaN(age) || !Number.isFinite(age)) {
 } else {
     age = Number(age);
     if (Number.isNaN(age)) {
-        console.log('Вы ыыели некорректную строку');
+        console.log('Вы ввели некорректную строку');
     } else if (age >= MIN_AGE) {
         console.log('Доступ разрешен');
     } else {
