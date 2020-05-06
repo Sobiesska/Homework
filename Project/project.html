@@ -1,1 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Star Wars Characters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/jpg" href="images/logo-star-wars.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".slide").click(function(){
+                $(".slide").slideUp(1000);
+            });
+            $("#logo-link").click(function(){
+                $(".slide").slideDown(1000);
+            });
+        });
+    </script>
+    <style>
+        @font-face {
+            font-family: "Pixapp Inter";
+            src: url(fonts/pixapp-inter.ttf) format("truetype");
+            font-style: normal;
+            font-weight: normal;
+        }
+        * {
+            font-family: "Pixapp Inter",serif;
+        }
+        html, body {
+            margin:0;
+            padding:0;
+        }
+        a {
+            height: 100%;
+            width: 100%;
+            margin: 2%;
+        }
+        .slide {
+            background-image: url("images/start-window.gif");
+            background-size: cover;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+        }
+        .container {
+            background-image: url("images/space.png");
+            background-size: cover;
+        }
+        .holder {
+            display: flex;
+            align-items: center;
+            width: 100vw;
+            height: 80vh;
+        }
+        .logo-holder {
+            display: flex;
+            justify-content: center;
+            height: 20vh;
+            width: 100vw;
+            padding: 3vh 0 11vh 0;
+        }
+        #logo-link {
+            background-image: url("images/logo-star-wars.png");
+            height: 18vh;
+            width: 18vw;
+            background-size: cover;
+            z-index: 9999;
+        }
+        #game {
+            display: flex;
+            justify-content: center;
+            height: 8vh;
+            width: 100vw;
+            padding-bottom: 20vh;
+        }
+        #game-link {
+            background-image: url("images/play2.png");
+            height: 10vh;
+            width: 13vw;
+            background-size: cover;
+            z-index: 10;
+        }
+        .central-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80vw;
+        }
+        .card-holder {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .character-card {
+            display: flex;
+            align-items: center;
+            height: 30vh;
+            margin: 2%;
+            position: relative;
+            width: 100%;
+            border: #c49602 solid 3px;
+        }
+        .previous-page, .next-page {
+            display: flex;
+            width: 10vw;
+            height: 10vh;
+        }
+        .previous-page {
+            background-image: url("images/previous-button.png");
+            background-repeat: no-repeat;
+            background-size: 15vh;
+            background-position: right;
+        }
+        .next-page {
+            display: flex;
+            background-image: url("images/next-button.png");
+            background-repeat: no-repeat;
+            background-size: 15vh;
+            background-position: left;
+        }
+        .policy {
+            display: block;
+            color: #c49602;
+            text-transform: uppercase;
+            font-size: 16px;
+            justify-content: center;
+            text-align: center;
+            padding: 1vh 0 3vh 0;
+            letter-spacing: 1px;
+            line-height: 20px;
+        }
+        .image {
+            opacity: 1;
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+        .overlay {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: .3s ease;
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background-color: #f9ee16;
+            border-top: #c49602 3px solid;
+            transform: translate(0, -100%);
+            -ms-transform: translate(0, -100%);
+            text-align: center;
+        }
+        .character-card:hover .overlay {
+            opacity: 1;
+        }
+        .overlay-text {
+            display: flex;
+            justify-content: center;
+            color: #c49602;
+            font-size: 18px;
+            padding: 16px 32px;
+            letter-spacing: 1px;
+            line-height: 20px;
+            text-transform: uppercase;
+        }
+        #modal-window {
+            background-image: url("images/modal-background.png");
+            background-position: center bottom;
+            position: absolute;
+            left: 50%;
+            top: 63%;
+            transform: translate(-50%,-50%);
+            width: 45%;
+            height: 65%;
+            border: 6px solid white;
+            z-index: 9999;
+        }
+        #modal-game {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            left: 50%;
+            top: 70%;
+            transform: translate(-50%,-50%);
+            width: 50%;
+            height: 70%;
+            border: 6px solid #c49602;
+            background-color: black;
+            z-index: 9997;
+        }
+        .is-hidden {
+            display: none;
+        }
+        .popup-fade:before {
+            content: '';
+            background: #000;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            z-index: 100;
+        }
+        .popup-game:before {
+            content: '';
+            background: #000;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            z-index: 100;
+        }
+        .detail-card {
+            width: 80%;
+            height: 60%;
+            margin: 2%;
+            background-size: cover;
+        }
+        .close-button {
+            display: flex;
+            width: 16%;
+            height: 10%;
+            background-image: url("images/close-button.png");
+            background-size: cover;
+            border-radius: 100%;
+            justify-content: center;
+            align-items: flex-end;
+            color: white;
+            font-size: 44px;
+            text-decoration: none;
+            top: 50px; left: 55px;
+            z-index: 9999;
+        }
+        .close-game {
+            display: flex;
+            width: 9%;
+            height: 9%;
+            background-image: url("images/close-button.png");
+            background-size: cover;
+            border-radius: 100%;
+            justify-content: center;
+            align-items: flex-end;
+            color: white;
+            font-size: 44px;
+            text-decoration: none;
+            z-index: 9999;
+        }
+        .api-info {
+            line-height: 13px;
+            width: 100%;
+            height: 60%;
+            font-size: 18px;
+            margin-top: 1%;
+        }
+        li {
+            line-height: 20px;
+        }
+        .modal-elements {
+            display: flex;
+            align-content: space-between;
+            width: 100%;
+            height: 100%;
+        }
+        iframe {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="slide"></div>
+    <div class="logo-holder">
+        <a href="#" id="logo-link"></a>
+    </div>
+    <div class="holder">
+        <div class="previous-page"></div>
+        <div id='page1' class="central-block">
+            <div class="card-holder">
+                <a id="1" href="#">
+                    <div class="character-card">
+                        <img src="images/luke.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Luke Skywalker</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="2" href="#">
+                    <div class="character-card">
+                        <img src="images/c-3po.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">c-3po</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="3" href="#">
+                    <div class="character-card">
+                        <img src="images/r2-d2.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">r2-d2</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="4" href="#">
+                    <div class="character-card">
+                        <img src="images/darth-vader.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Darth Vader</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="5" href="#">
+                    <div class="character-card">
+                        <img src="images/leia-organa.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Leia Organa</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="6" href="#">
+                    <div class="character-card">
+                        <img src="images/owen-lars.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Owen Lars</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="7" href="#">
+                    <div class="character-card">
+                        <img src="images/beru-whitesun-lars.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Beru Whitesun Lars</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="8" href="#">
+                    <div class="character-card">
+                        <img src="images/r5-d4.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">r5-d4</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="9" href="#">
+                    <div class="character-card">
+                        <img src="images/biggs-darklighter.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Biggs Darklighter</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="10" href="#">
+                    <div class="character-card">
+                        <img src="images/obi-wan-kenobi.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">obi wan kenobi</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page2' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="11" href="#">
+                    <div class="character-card">
+                        <img src="images/anakin-skywalker.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">anakin skywalker</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="12" href="#">
+                    <div class="character-card">
+                        <img src="images/wilhuff-tarkin.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">wilhuff tarkin</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="13" href="#">
+                    <div class="character-card">
+                        <img src="images/chewbacca.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Chewbaccaa</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="14" href="#">
+                    <div class="character-card">
+                        <img src="images/han-solo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">han solo</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="15" href="#">
+                    <div class="character-card">
+                        <img src="images/greedo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">greedo</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="16" href="#">
+                    <div class="character-card">
+                        <img src="images/jabba-desilijic-tiure2.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">jabba desilijic tiure</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="18" href="#">
+                    <div class="character-card">
+                        <img src="images/wedge-antilles.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">wedge antilles</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="19" href="#">
+                    <div class="character-card">
+                        <img src="images/jek-tono-porkins.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">jek tono porkins</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="20" href="#">
+                    <div class="character-card">
+                        <img src="images/yoda.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">yoda</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="21" href="#">
+                    <div class="character-card">
+                        <img src="images/palpatine.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">palpatine</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page3' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="22" href="#">
+                    <div class="character-card">
+                        <img src="images/boba-fett.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">boba fett</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="23" href="#">
+                    <div class="character-card">
+                        <img src="images/ig-88.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">ig-88</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="24" href="#">
+                    <div class="character-card">
+                        <img src="images/bossk.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">bossk</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="25" href="#">
+                    <div class="character-card">
+                        <img src="images/lando-calrissian.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">lando calrissian</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="26" href="#">
+                    <div class="character-card">
+                        <img src="images/lobot.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">lobot</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="27" href="#">
+                    <div class="character-card">
+                        <img src="images/ackbar.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">ackbar</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="28" href="#">
+                    <div class="character-card">
+                        <img src="images/mon-mothma.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">mon mothma</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="29" href="#">
+                    <div class="character-card">
+                        <img src="images/arvel-crynyd.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">arvel crynyd</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="30" href="#">
+                    <div class="character-card">
+                        <img src="images/wicket-systri-warrick.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">wicket systri warrick</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="31" href="#">
+                    <div class="character-card">
+                        <img src="images/nien-nunb.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">nien nunb</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page4' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="32" href="#">
+                    <div class="character-card">
+                        <img src="images/qui-gon-jinn.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">qui gon jinn</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="33" href="#">
+                    <div class="character-card">
+                        <img src="images/nute-gunray.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">nute gunray</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="34" href="#">
+                    <div class="character-card">
+                        <img src="images/finis-valorum.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">finis valorum</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="35" href="#">
+                    <div class="character-card">
+                        <img src="images/padme-amidala.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">padme amidala</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="36" href="#">
+                    <div class="character-card">
+                        <img src="images/jar-jar-binks.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">jar jar binks</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="37" href="#">
+                    <div class="character-card">
+                        <img src="images/roos-tarpals.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">roos tarpals</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="38" href="#">
+                    <div class="character-card">
+                        <img src="images/rugor-nass.png" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">rugor nass</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="39" href="#">
+                    <div class="character-card">
+                        <img src="images/han-solo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Ric Olie</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="40" href="#">
+                    <div class="character-card">
+                        <img src="images/watto.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">watto</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="41" href="#">
+                    <div class="character-card">
+                        <img src="images/sebulba.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">sebulba</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page5' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="42" href="#">
+                    <div class="character-card">
+                        <img src="images/anakin-skywalker.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Quarsh Panaka</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="43" href="#">
+                    <div class="character-card">
+                        <img src="images/han-solo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Shmi Skywalker</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="44" href="#">
+                    <div class="character-card">
+                        <img src="images/ig-88.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Darth Maul</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="45" href="#">
+                    <div class="character-card">
+                        <img src="images/wilhuff-tarkin.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Bib Fortuna</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="46" href="#">
+                    <div class="character-card">
+                        <img src="images/greedo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Ayla Secura</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="47" href="#">
+                    <div class="character-card">
+                        <img src="images/lobot.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Ratts Tyerel</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="48" href="#">
+                    <div class="character-card">
+                        <img src="images/boba-fett.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Dud Bolt</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="49" href="#">
+                    <div class="character-card">
+                        <img src="images/qui-gon-jinn.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Gasgano</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="50" href="#">
+                    <div class="character-card">
+                        <img src="images/bossk.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Ben Quadinaros</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="51" href="#">
+                    <div class="character-card">
+                        <img src="images/yoda.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Mace Windu</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page6' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="52" href="#">
+                    <div class="character-card">
+                        <img src="images/wicket-systri-warrick.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Ki-Adi-Mundi</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="53" href="#">
+                    <div class="character-card">
+                        <img src="images/wilhuff-tarkin.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Kit Fisto</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="54" href="#">
+                    <div class="character-card">
+                        <img src="images/chewbacca.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Eeth Koth</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="55" href="#">
+                    <div class="character-card">
+                        <img src="images/anakin-skywalker.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Adi Gallia</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="56" href="#">
+                    <div class="character-card">
+                        <img src="images/han-solo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Saesee Tiin</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="57" href="#">
+                    <div class="character-card">
+                        <img src="images/qui-gon-jinn.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Yarael Poof</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="58" href="#">
+                    <div class="character-card">
+                        <img src="images/nute-gunray.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Plo Koon</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="59" href="#">
+                    <div class="character-card">
+                        <img src="images/finis-valorum.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Mas Amedda</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="60" href="#">
+                    <div class="character-card">
+                        <img src="images/padme-amidala.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Gregar Typho</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="61" href="#">
+                    <div class="character-card">
+                        <img src="images/jar-jar-binks.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Cordé</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page7' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="62" href="#">
+                    <div class="character-card">
+                        <img src="images/jabba-desilijic-tiure2.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Cliegg Lars</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="63" href="#">
+                    <div class="character-card">
+                        <img src="images/wedge-antilles.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Poggle the Lesser</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="64" href="#">
+                    <div class="character-card">
+                        <img src="images/jek-tono-porkins.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Luminara Unduli</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="65" href="#">
+                    <div class="character-card">
+                        <img src="images/yoda.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Barriss Offee</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="66" href="#">
+                    <div class="character-card">
+                        <img src="images/palpatine.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Dormé</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="67" href="#">
+                    <div class="character-card">
+                        <img src="images/wilhuff-tarkin.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Dooku</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="68" href="#">
+                    <div class="character-card">
+                        <img src="images/chewbacca.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Bail Prestor Organa</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="69" href="#">
+                    <div class="character-card">
+                        <img src="images/anakin-skywalker.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Jango Fett</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="70" href="#">
+                    <div class="character-card">
+                        <img src="images/greedo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Zam Wesell</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="71" href="#">
+                    <div class="character-card">
+                        <img src="images/han-solo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Dexter Jettster</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id='page8' class="central-block is-hidden">
+            <div class="card-holder">
+                <a id="72" href="#">
+                    <div class="character-card">
+                        <img src="images/lobot.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Lama Su</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="73" href="#">
+                    <div class="character-card">
+                        <img src="images/boba-fett.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Taun We</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="74" href="#">
+                    <div class="character-card">
+                        <img src="images/qui-gon-jinn.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Jocasta Nu</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="75" href="#">
+                    <div class="character-card">
+                        <img src="images/bossk.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">R4-P17</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="76" href="#">
+                    <div class="character-card">
+                        <img src="images/yoda.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Wat Tambor</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-holder">
+                <a id="77" href="#">
+                    <div class="character-card">
+                        <img src="images/anakin-skywalker.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">San Hill</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="78" href="#">
+                    <div class="character-card">
+                        <img src="images/han-solo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Shaak Ti</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="79" href="#">
+                    <div class="character-card">
+                        <img src="images/ig-88.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Grievous</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="80" href="#">
+                    <div class="character-card">
+                        <img src="images/wilhuff-tarkin.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Tarfful</div>
+                        </div>
+                    </div>
+                </a>
+                <a id="81" href="#">
+                    <div class="character-card">
+                        <img src="images/greedo.jpg" class="image" style="background-size: cover">
+                        <div class="overlay">
+                            <div class="overlay-text">Raymus Antilles</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="next-page"></div>
+    </div>
+    <div class="popup-fade is-hidden">
+        <div id="modal-window">
+            <div class="modal-elements">
+                <div class="detail-card"></div>
+                <div class="api-info"></div>
+                <a href="#" class="close-button">
+                    <div>X</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="popup-game is-hidden">
+        <div id="modal-game">
+            <div style="width: 16%; height: 100%;"></div>
+            <div id='game-rom' style="width: 100%; height: 100%;">
+            </div>
+            <a href="#" class="close-game">
+                <div>X</div>
+            </a>
+        </div>
+    </div>
+    <div id="game">
+        <a href="#" id="game-link"></a>
+    </div>
+    <div class="policy">
+        Designed and developed for ITEA by Lilia Podolska ©2020<br>
+        Star Wars and all associated names and/or images are copyright Lucasfilm Ltd. Images were freely collected from
+        Google.
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var characterDetails = document.querySelector('#modal-window');
+        var playGame = document.querySelector('#game-link');
+        var stopGame = document.querySelector('.close-game');
+        var modalGame = document.querySelector('.popup-game');
+        var backgroundFade = document.querySelector('.popup-fade');
+        var closeButton = document.querySelector('.close-button');
+        var nextPageButton = document.querySelector('.next-page');
+        var previousPageButton = document.querySelector('.previous-page');
+        var firstPage = document.querySelector('#page1');
+        var secondPage = document.querySelector('#page2');
+        var thirdPage = document.querySelector('#page3');
+        var fourthPage = document.querySelector('#page4');
+        var fifthPage = document.querySelector('#page5');
+        var sixthPage = document.querySelector('#page6');
+        var seventhPage = document.querySelector('#page7');
+        var eightPage = document.querySelector('#page8');
 
+        firstPage.addEventListener('click', showDetails);
+        secondPage.addEventListener('click', showDetails);
+        thirdPage.addEventListener('click', showDetails);
+        fourthPage.addEventListener('click', showDetails);
+        fifthPage.addEventListener('click', showDetails);
+        sixthPage.addEventListener('click', showDetails);
+        seventhPage.addEventListener('click', showDetails);
+        eightPage.addEventListener('click', showDetails);
+        closeButton.addEventListener('click', hideDetails);
+        nextPageButton.addEventListener('click', showNextPage);
+        previousPageButton.addEventListener('click', showPreviousPage);
+        playGame.addEventListener('click', showGame);
+        stopGame.addEventListener('click', hideGame);
+
+        function showGame(event) {
+            var target = event.target;
+            if (target) {
+                modalGame.classList.remove('is-hidden');
+                document.querySelector('#game-rom').innerHTML =
+                    "<iframe src=\"https://www.retrogames.cc/embed/21472-star-wars-usa.html\" width=\"600\" height=\"450\"\n" +
+                    "frameborder=\"no\" allowfullscreen=\"true\" webkitallowfullscreen=\"true\" mozallowfullscreen=\"true\"\n" +
+                    "scrolling=\"no\"></iframe>"
+            }
+        }
+
+        function hideGame(event) {
+            var target = event.target;
+            if (target) {
+                modalGame.classList.add('is-hidden');
+            }
+        }
+
+        function showDetails(event) {
+            var target = event.target;
+            var url = 'https://swapi.dev/api/people/';
+            var init = {
+                method: 'GET'
+            };
+            var y = target.closest("a").id;
+            var x;
+            url = url + y;
+
+            fetch(url, init)
+                .then((res) => { return res.json() })
+                .then((data) => {
+                    var result = ``;
+                    const { name, films, gender, height, hair_color, skin_color, birth_year, species} = data;
+                    result +=
+                        `<div class="api-text">
+                     <p><h1>${name}</h1></p>
+                     <p>GENDER:  ${gender}</p>
+                     <p>HEIGHT:  ${height}</p>
+                     <p id="species"></p>
+                     <p>HAIR COLOR:  ${hair_color}</p>
+                     <p>SKIN COLOR:  ${skin_color}</p>
+                     <p>BIRTH YEAR:  ${birth_year}</p>
+                     <p>FILMS: <ul id="films"></ul>
+                     </p>
+                     </div>`;
+                    document.querySelector('.api-info').innerHTML = result;
+                    Promise.all(
+                        films.map(film => {
+                            return fetch(film)
+                                .then(result => result.json())
+                        })
+                    ).then(filmsData => {
+                        document.getElementById('films').innerHTML = (filmsData.map(liData => `<li>${liData.title}</li>`).join(""));
+                    })
+
+                    Promise.all(
+                        species.map(species => {
+                            return fetch(species)
+                                .then(result => result.json())
+                        })
+                    ).then(speciesData => {
+                        document.getElementById('species').innerHTML = (speciesData.map(specData => `SPECIES: ${specData.name}`).join(""));
+                    })
+                });
+
+            if (target) {
+                if (target.className === 'image') {
+                    backgroundFade.classList.remove('is-hidden');
+                    x = target.cloneNode();
+                    characterDetails.querySelector('.detail-card').appendChild(x);
+                } else {
+                    if (target.className === 'overlay') {
+                        x = target.previousElementSibling.cloneNode();
+                        characterDetails.querySelector('.detail-card').appendChild(x);
+                        backgroundFade.classList.remove('is-hidden');
+                    } else {
+                        if (target.className === 'overlay-text') {
+                            x = target.parentElement.previousElementSibling.cloneNode();
+                            characterDetails.querySelector('.detail-card').appendChild(x);
+                            backgroundFade.classList.remove('is-hidden');
+                        }
+                    }
+                }
+            }
+        }
+
+        function hideDetails(event) {
+            var target = event.target;
+            if (target !== characterDetails) {
+                backgroundFade.classList.add('is-hidden');
+                characterDetails.querySelector('.image').remove();
+                document.querySelector('.api-info').innerHTML = '';
+            }
+        }
+
+        function showNextPage(event) {
+            if (firstPage.className !== 'central-block is-hidden') {
+                firstPage.classList.add('is-hidden');
+                secondPage.classList.remove('is-hidden');
+            } else {
+                if (secondPage.className !== 'central-block is-hidden') {
+                    secondPage.classList.add('is-hidden');
+                    thirdPage.classList.remove('is-hidden');
+                } else {
+                    if (thirdPage.className !== 'central-block is-hidden') {
+                        thirdPage.classList.add('is-hidden');
+                        fourthPage.classList.remove('is-hidden');
+                    } else {
+                        if (fourthPage.className !== 'central-block is-hidden') {
+                            fourthPage.classList.add('is-hidden');
+                            fifthPage.classList.remove('is-hidden');
+                        } else {
+                            if (fifthPage.className !== 'central-block is-hidden') {
+                                fifthPage.classList.add('is-hidden');
+                                sixthPage.classList.remove('is-hidden');
+                            } else {
+                                if (sixthPage.className !== 'central-block is-hidden') {
+                                    sixthPage.classList.add('is-hidden');
+                                    seventhPage.classList.remove('is-hidden');
+                                } else {
+                                    if (seventhPage.className !== 'central-block is-hidden') {
+                                        seventhPage.classList.add('is-hidden');
+                                        eightPage.classList.remove('is-hidden');
+                                    } else {
+                                        eightPage.classList.add('is-hidden');
+                                        firstPage.classList.remove('is-hidden');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function showPreviousPage(event) {
+            if (firstPage.className !== 'central-block is-hidden') {
+                firstPage.classList.add('is-hidden');
+                eightPage.classList.remove('is-hidden');
+            } else {
+                if (secondPage.className !== 'central-block is-hidden') {
+                    secondPage.classList.add('is-hidden');
+                    firstPage.classList.remove('is-hidden');
+                } else {
+                    if (thirdPage.className !== 'central-block is-hidden') {
+                        thirdPage.classList.add('is-hidden');
+                        secondPage.classList.remove('is-hidden');
+                    } else {
+                        if (fourthPage.className !== 'central-block is-hidden') {
+                            fourthPage.classList.add('is-hidden');
+                            thirdPage.classList.remove('is-hidden');
+                        } else {
+                            if (fifthPage.className !== 'central-block is-hidden') {
+                                fifthPage.classList.add('is-hidden');
+                                fourthPage.classList.remove('is-hidden');
+                            } else {
+                                if (sixthPage.className !== 'central-block is-hidden') {
+                                    sixthPage.classList.add('is-hidden');
+                                    fifthPage.classList.remove('is-hidden');
+                                } else {
+                                    if (seventhPage.className !== 'central-block is-hidden') {
+                                        seventhPage.classList.add('is-hidden');
+                                        sixthPage.classList.remove('is-hidden');
+                                    } else {
+                                        eightPage.classList.add('is-hidden');
+                                        seventhPage.classList.remove('is-hidden');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>
